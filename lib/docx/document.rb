@@ -50,6 +50,10 @@ module Docx
       self.new(path, &block)
     end
 
+    def lis
+      @doc.xpath('//w:document//w:body//w:li').map { |li_node| parse_li_from li_node }
+    end
+
     def paragraphs
       @doc.xpath('//w:document//w:body//w:p').map { |p_node| parse_paragraph_from p_node }
     end
@@ -144,5 +148,10 @@ module Docx
     def parse_table_from(t_node)
       Elements::Containers::Table.new(t_node)
     end
+
+    def parse_li_from(li_node)
+      Elements::Containers::Paragraph.new(li_node, document_properties)
+    end
+
   end
 end
